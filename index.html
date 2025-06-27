@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="frame-src https://bebell-digital-solutions.github.io;">
+    <title>Business Synergy Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for spinner and other minor tweaks */
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+          animation: spin 1s linear infinite;
+        }
+        
+        /* Smooth scrolling for service list */
+        .service-list {
+            scrollbar-width: thin;
+            scrollbar-color: #94a3b8 #e2e8f0; /* slate-400 slate-200 */
+        }
+        html.dark .service-list {
+            scrollbar-color: #475569 #1e293b; /* slate-600 slate-800 */
+        }
+        .service-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .service-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .service-list::-webkit-scrollbar-thumb {
+            background-color: #94a3b8; /* slate-400 */
+            border-radius: 10px;
+        }
+         html.dark .service-list::-webkit-scrollbar-thumb {
+             background-color: #475569; /* slate-600 */
+         }
+    </style>
+    <script>
+      // On page load, set the theme to avoid FOUC (Flash of Unstyled Content)
+      const storedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Tailwind CSS configuration
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#DF1783',
+                light: '#e855a8',
+                dark: '#c60d73',
+              },
+              bkg: {
+                  light: '#f8fafc', // slate-50
+                  dark: '#0f172a' // slate-900
+              },
+              content: {
+                  light: '#ffffff',
+                  dark: '#1e293b' // slate-800
+              }
+            }
+          }
+        }
+      }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.524.0"
+  }
+}
+</script>
+</head>
+<body class="bg-bkg-light dark:bg-bkg-dark text-slate-800 dark:text-slate-200 antialiased selection:bg-primary/20 overflow-hidden">
+    
+    <div id="app-container" class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed top-0 left-0 h-full bg-slate-100 dark:bg-slate-800 flex flex-col transition-all duration-300 ease-in-out z-20 w-64">
+            <button id="sidebar-toggle" class="absolute -right-3 top-8 z-30 rounded-full bg-slate-200 dark:bg-slate-700 p-1.5 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors" aria-label="Collapse sidebar">               
+                <!-- Icon will be inserted by JS -->
+            </button>
+            
+            <div class="flex items-center h-16 border-b border-slate-200 dark:border-slate-700 shrink-0 px-4">
+    <div id="sidebar-header-content" class="flex items-center gap-3">
+        <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-md mx-auto">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 504" class="w-6 h-6 text-white">
+                <path d="M69.35,159.38h33.57a19.44,19.44,0,1,0,0-38.88H69.35a19.44,19.44,0,0,0,0,38.88Z" fill="white"/>
+                <path d="M98.08,308.93h7c12.23,0,22.15-8.71,22.15-19.44s-9.92-19.44-22.15-19.44h-7c-12.23,0-22.15,8.7-22.15,19.44S85.85,308.93,98.08,308.93Z" fill="white"/>
+                <path d="M64.85,386.34H86.14a19.44,19.44,0,0,0,0-38.88H64.85a19.44,19.44,0,0,0,0,38.88Z" fill="white"/>
+                <path d="M455.36,245a144.37,144.37,0,0,0-52.31-50.81q34.05-24.33,34.06-66.32,0-34.66-24-58.71t-58.1-24H46.19c-9.74,0-17.63,8.7-17.63,19.44S36.45,84,46.19,84H84.85a20.83,20.83,0,0,1,3.28-.28h141c10.73,0,19.44,8.23,19.44,18.38s-8.71,18.38-19.44,18.38H168a19.43,19.43,0,0,0,2.79,38.66h14.88l0,.22h17.85c10.74,0,19.44,8.05,19.44,18s-8.7,18-19.44,18H89.87a19.44,19.44,0,1,0,0,38.88h81.29l0,.21c9.69,1.27,17.14,8.7,17.14,17.71,0,9.89-9,17.91-20.05,17.91H156.45a19.44,19.44,0,0,0,0,38.88H192c10.73,0,19.44,8.42,19.44,18.81s-8.71,18.82-19.44,18.82H137.53a19.43,19.43,0,0,0-3,38.63h5.28c10.74,0,19.44,7.79,19.44,17.4S150.57,420,139.83,420H60.72a19.44,19.44,0,1,0,0,38.88H334.29A140.62,140.62,0,0,0,475.44,317.71Q475.44,277.56,455.36,245ZM278.32,78.6H355a47.93,47.93,0,0,1,34.38,13.69q14.28,13.69,14.29,35.59,0,18.87-13.39,33.77T355,176.56H278.32ZM411.26,393.15q-30.74,32.27-77,32.25h-56V210h56a106.66,106.66,0,0,1,52.93,14a108.1,108.1,0,0,1,39.86,38.33Q442,286.69,442,317.71,442,360.91,411.26,393.15Z" fill="white"/>
+            </svg>
+        </div>
+        <h1 class="text-xl font-bold text-slate-800 dark:text-white whitespace-nowrap transition-opacity duration-300 opacity-100">Business Hub</h1>
+    </div>
+</div>
+            
+            <div class="p-2 mt-2">
+                <div class="relative">
+                    <span id="search-icon-wrapper" class="absolute top-1/2 -translate-y-1/2 text-slate-400 transition-all duration-300 left-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <input id="search-input" type="text" placeholder="Search..." class="w-full bg-slate-200 dark:bg-slate-700 rounded-md py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary transition-opacity duration-300 opacity-100">
+                </div>
+            </div>
+            
+            <nav id="service-list" class="flex-1 overflow-y-auto overflow-x-hidden p-2 service-list">
+                <!-- Service items will be injected by JS -->
+            </nav>
+
+            <div class="p-2 border-t border-slate-200 dark:border-slate-700">
+                <button id="theme-toggle" class="w-full flex items-center justify-center p-2 rounded-md transition-colors hover:bg-slate-200 dark:hover:bg-slate-700/50">
+                    <!-- Theme icon and text will be injected by JS -->
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 transition-all duration-300 ease-in-out ml-64">
+             <div id="content-panel" class="h-full w-full bg-content-light dark:bg-content-dark relative">
+                <!-- Welcome screen or Iframe will be shown here -->
+                <div id="welcome-screen" class="flex flex-col items-center justify-center h-full text-center text-slate-500 dark:text-slate-400 p-8">
+                    <div class="p-6 bg-primary/10 rounded-full mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-700 dark:text-slate-200 mb-2">Welcome to Business Hub</h2>
+                    <p class="max-w-md">Select a service from the sidebar to begin your workflow. All your tools, one single view.</p>
+                </div>
+
+                <div id="iframe-container" class="relative h-full w-full hidden">
+                     <div id="loading-spinner" class="absolute inset-0 bg-content-light dark:bg-content-dark bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center z-10">
+                        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+                    </div>
+                    
+              <iframe 
+    id="service-iframe" 
+    class="w-full h-full border-none" 
+    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals"
+    allow="fullscreen"
+></iframe>
+                </div>
+             </div>
+        </main>
+    </div>
+
+    <script type="module">
+        const ICONS = {
+            home: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+            
+            
+            'search-check': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
+            
+            
+            
+            'dollar-sign': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>`,
+            award: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>`,
+            'shield-check': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`,
+            scale: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5 1 7 2 2-1 5-2 7-2h2"></path></svg>`,
+            'wallet-2': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"></path><path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14"></path></svg>`,
+            megaphone: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>`,
+            'shopping-cart': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.16"></path></svg>`,
+            'code-2': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>`,
+            'message-circle': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`,
+            
+             FolderKanban: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg>`,
+            
+            
+            'users-2': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 19a6 6 0 0 0-12 0"></path><circle cx="8" cy="9" r="4"></circle><path d="M22 19a6 6 0 0 0-6-6 4 4 0 1 0 0-8"></path></svg>`,
+            'edit-3': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>`,
+            'bar-chart-3': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>`,
+            zap: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+            'trending-up': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`,
+            briefcase: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>`,
+            'book-open-check': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H2v15h7c1.7 0 3 1.3 3 3V7c0-2.2-1.8-4-4-4Z"></path><path d="m16 12 2 2 4-4"></path><path d="M22 6V3h-6c-2.2 0-4 1.8-4 4v14c0-1.7 1.3-3 3-3h7v-2.3"></path></svg>`,
+            activity: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>`,
+            Sun: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>`,
+            Moon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>`,
+            ChevronsLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"></path><path d="m18 17-5-5 5-5"></path></svg>`,
+            ChevronsRight: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg>`,
+        };
+
+
+        const SERVICES = [
+        { id: 'privacy-precaution', name: 'Start Here', url: 'https://example.com/privacy-precaution', icon: ICONS.home },
+        
+        
+            { id: 'start-here', name: 'Organization Hub', url: 'https://example.com/start-here', icon: ICONS.FolderKanban },
+            
+            
+            
+            { id: 'privacy-precaution', name: 'Privacy & Precaution Hub', url: 'https://example.com/privacy-precaution', icon: ICONS['shield-check'] },
+            
+            
+            { id: 'market-research', name: 'Market Research Hub', url: 'https://bebell-digital-solutions.github.io/market-research-hub-app/', icon: ICONS['search-check'] },
+            
+            
+            { id: 'financial-hub', name: 'Financial Hub', url: 'https://bebell-digital-solutions.github.io/financial-hub-pro', icon: ICONS['dollar-sign'] },
+            { id: 'commercial-identity', name: 'Comercial Identity Hub', url: 'https://example.com/commercial-identity', icon: ICONS.award },
+            
+            
+            { id: 'protection-compliance', name: 'Protection & Compliance Hub', url: 'https://example.com/protection-compliance', icon: ICONS.scale },
+            { id: 'digital-wallet', name: 'Digital Wallet Hub', url: 'https://example.com/digital-wallet', icon: ICONS['wallet-2'] },
+            { id: 'digital-marketing', name: 'Digital Marketing Hub', url: 'https://example.com/digital-marketing', icon: ICONS.megaphone },
+            { id: 'sales-hub', name: 'Sales Hub', url: 'https://example.com/sales-hub', icon: ICONS['shopping-cart'] },
+            { id: 'web-development', name: 'Online Presence Hub', url: 'https://example.com/web-development', icon: ICONS['code-2'] },
+            { id: 'communication-hub', name: 'Communication Hub', url: 'https://example.com/communication-hub', icon: ICONS['message-circle'] },
+            { id: 'customer-service', name: 'Customer Service Hub', url: 'https://example.com/customer-service', icon: ICONS['users-2'] },
+            { id: 'content-creation', name: 'Content Creation Hub', url: 'https://example.com/content-creation', icon: ICONS['edit-3'] },
+            { id: 'data-analytics', name: 'Data & Analytics Hub', url: 'https://example.com/data-analytics', icon: ICONS['bar-chart-3'] },
+            { id: 'automations-hub', name: 'Automations Hub', url: 'https://example.com/automations-hub', icon: ICONS.zap },
+            { id: 'optimization-hub', name: 'Optimization Hub', url: 'https://example.com/optimization-hub', icon: ICONS['trending-up'] },
+            { id: 'formalization-hub', name: 'Formalization Hub', url: 'https://example.com/formalization-hub', icon: ICONS.briefcase },
+            { id: 'accounting-hub', name: 'Accounting Hub', url: 'https://example.com/accounting-hub', icon: ICONS['book-open-check'] },
+            { id: 'investment-hub', name: 'Investment Hub', url: 'https://example.com/investment-hub', icon: ICONS.activity },
+        ];
+        
+        
+        // State
+        let activeServiceId = null;
+        let isSidebarOpen = localStorage.getItem('sidebarOpen') !== 'false';
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarHeaderContent = document.getElementById('sidebar-header-content');
+        const serviceListContainer = document.getElementById('service-list');
+        const themeToggle = document.getElementById('theme-toggle');
+        const searchInput = document.getElementById('search-input');
+        const searchIconWrapper = document.getElementById('search-icon-wrapper');
+        
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const iframeContainer = document.getElementById('iframe-container');
+        const serviceIframe = document.getElementById('service-iframe');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        const updateSidebarView = () => {
+            const sidebarTitle = sidebarHeaderContent.querySelector('h1');
+            const searchInputEl = document.getElementById('search-input');
+            const themeToggleText = themeToggle.querySelector('span');
+
+            if (isSidebarOpen) {
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-64');
+                mainContent.classList.remove('ml-20');
+                mainContent.classList.add('ml-64');
+                sidebarToggle.innerHTML = ICONS.ChevronsLeft;
+                sidebarToggle.setAttribute('aria-label', 'Collapse sidebar');
+                
+                sidebarHeaderContent.classList.remove('justify-center');
+                if(sidebarTitle) sidebarTitle.classList.remove('opacity-0');
+                if(searchInputEl) searchInputEl.classList.remove('opacity-0', 'pointer-events-none');
+                if(themeToggleText) themeToggleText.classList.remove('hidden');
+
+                searchIconWrapper.classList.remove('left-1/2', '-translate-x-1/2');
+                searchIconWrapper.classList.add('left-3');
+                
+                // Ensure logo is visible
+                document.querySelector('#sidebar-header-content > div').classList.remove('mx-auto');
+            } else {
+                sidebar.classList.remove('w-64');
+                sidebar.classList.add('w-20');
+                mainContent.classList.remove('ml-64');
+                mainContent.classList.add('ml-20');
+                sidebarToggle.innerHTML = ICONS.ChevronsRight;
+                sidebarToggle.setAttribute('aria-label', 'Expand sidebar');
+                
+                sidebarHeaderContent.classList.add('justify-center');
+                if(sidebarTitle) sidebarTitle.classList.add('opacity-0');
+                if(searchInputEl) searchInputEl.classList.add('opacity-0', 'pointer-events-none');
+                if(themeToggleText) themeToggleText.classList.add('hidden');
+
+                searchIconWrapper.classList.remove('left-3');
+                searchIconWrapper.classList.add('left-1/2', '-translate-x-1/2');
+                
+                // Center the logo
+                document.querySelector('#sidebar-header-content > div').classList.add('mx-auto');
+            }
+            renderServiceList();
+        };
+
+        const updateThemeView = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isDark) {
+                themeToggle.innerHTML = `
+                    ${ICONS.Sun}
+                    <span class="ml-4 text-sm font-medium ${!isSidebarOpen ? 'hidden' : ''}">Toggle Theme</span>
+                `;
+                themeToggle.title = 'Switch to Light Mode';
+            } else {
+                themeToggle.innerHTML = `
+                    ${ICONS.Moon}
+                    <span class="ml-4 text-sm font-medium ${!isSidebarOpen ? 'hidden' : ''}">Toggle Theme</span>
+                `;
+                themeToggle.title = 'Switch to Dark Mode';
+            }
+        };
+
+        const renderServiceList = () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredServices = SERVICES.filter(service => 
+                service.name.toLowerCase().includes(searchTerm)
+            );
+
+            serviceListContainer.innerHTML = '';
+            const list = document.createElement('ul');
+
+            filteredServices.forEach(service => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.dataset.serviceId = service.id;
+                button.title = service.name;
+
+                const activeClasses = 'bg-primary/20 text-primary-dark dark:text-primary-light';
+                const hoverClasses = 'hover:bg-slate-200 dark:hover:bg-slate-700/50';
+                
+                button.className = `w-full flex items-center p-3 my-1 rounded-md transition-all duration-200 ${
+                    activeServiceId === service.id ? activeClasses : hoverClasses
+                } ${!isSidebarOpen ? 'justify-center' : ''}`;
+                
+                button.innerHTML = `
+                    ${service.icon}
+                    ${isSidebarOpen ? `<span class="ml-4 font-medium text-sm text-left truncate">${service.name}</span>` : ''}
+                `;
+
+                button.addEventListener('click', () => {
+                    activeServiceId = service.id;
+                    welcomeScreen.classList.add('hidden');
+                    iframeContainer.classList.remove('hidden');
+                    loadingSpinner.classList.remove('hidden');
+                    serviceIframe.src = service.url;
+                    serviceIframe.title = service.name;
+                    renderServiceList(); // Re-render to update active styles
+                });
+                
+                li.appendChild(button);
+                list.appendChild(li);
+            });
+            serviceListContainer.appendChild(list);
+        };
+        
+        // Event Listeners
+        sidebarToggle.addEventListener('click', () => {
+            isSidebarOpen = !isSidebarOpen;
+            localStorage.setItem('sidebarOpen', isSidebarOpen);
+            updateSidebarView();
+            updateThemeView();
+        });
+
+        themeToggle.addEventListener('click', () => {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeView();
+        });
+
+        searchInput.addEventListener('input', renderServiceList);
+        
+        serviceIframe.addEventListener('load', () => {
+            loadingSpinner.classList.add('hidden');
+        });
+
+        // Initial paint
+        updateSidebarView();
+        updateThemeView();
+    </script>
+    
+    
+    
+        <script>
+      // Ensure Lucide icons are created after Alpine.js initializes and updates DOM
+      document.addEventListener('DOMContentLoaded', () => { lucide.createIcons(); });
+      document.addEventListener('alpine:initialized', () => { lucide.createIcons(); });
+      document.addEventListener('alpine:updated', () => { lucide.createIcons(); });
+    </script>
+    
+    
+</body>
+</html>
