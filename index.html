@@ -87,7 +87,7 @@
                     <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-md mx-auto">
                          <img src="https://bucket.mlcdn.com/a/3336/3336910/images/352085b439942aa80fd1b0f0704740d7046542ff.png" alt="icon" class="w-6 h-6 object-contain">
                     </div>
-                    <h1 class="text-xl font-bold text-slate-800 dark:text-white whitespace-nowrap transition-opacity duration-300 opacity-100">Business Hub</h1>
+                    <h1 class="text-xl font-bold text-slate-800 dark:text-white whitespace-nowrap transition-opacity duration-300 opacity-100">Business Hub 🎯 </h1>
                 </div>
             </div>
             
@@ -126,8 +126,8 @@
   
 </div>
 
-                    <h2 class="text-3xl font-bold text-slate-700 dark:text-slate-200 mb-2">Welcome to Business Hub</h2>
-                    <p class="max-w-md">Select a service from the sidebar to begin your workflow. All your tools, one single view.</p>
+                    <h2 class="text-3xl font-bold text-slate-700 dark:text-slate-200 mb-2">Welcome to Business Hub 🎯</h2>
+                    <p class="max-w-md">Select a service from the sidebar to begin your workflow. All your tools and resources, one single dashboard.</p>
                 </div>
 
                 <div id="iframe-container" class="relative h-full w-full hidden">
@@ -162,6 +162,14 @@
         const ICONS = {
             'pin': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>`,
             'rocket': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
+            
+            'pencil-ruler': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13"/><path d="m8 6 2-2"/><path d="m18 16 2-2"/><path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>`,
+            
+        'badge-check': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>`,    
+            
+            
+            'folder-search': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.7 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v4.1"/><path d="m21 21-1.9-1.9"/><circle cx="17" cy="17" r="3"/></svg>`,
+            
             'home': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
             'search-check': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
             'building-2': `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>`,        
@@ -217,9 +225,11 @@
             { id: 'data-analytics', name: 'Data & Analytics Hub', url: 'https://bebell-digital-solutions.github.io/data-analysis-hub', icon: 'bar-chart-3' },
             { id: 'automations-hub', name: 'Automations Hub', url: 'https://bebell-digital-solutions.github.io/automation', icon: 'zap' },
             { id: 'optimization-hub', name: 'Optimization Hub', url: 'https://bebell-digital-solutions.github.io/optimization-hub/', icon: 'trending-up' },
-            { id: 'formalization-hub', name: 'Formalization Hub', url: 'https://bebell-digital-solutions.github.io/formalization-hub', icon: 'briefcase' },
+            { id: 'formalization-hub', name: 'Formalization Hub', url: 'https://bebell-digital-solutions.github.io/formalization-hub', icon: 'badge-check' },
             { id: 'accounting-hub', name: 'Accounting Hub', url: 'https://bebell-digital-solutions.github.io/accounting-hub/', icon: 'book-open-check' },
             { id: 'investment-hub', name: 'Investment Hub', url: 'https://bebell-digital-solutions.github.io/investment-hub/', icon: 'activity' },
+              { id: 'Tools-hub', name: 'Tools Directory', url: 'https://bebell-digital-solutions.github.io/magic-toolbox-aplicacion/', icon: 'folder-search' },
+            
             { id: 'ai-assistant', name: 'AI Assistant', url: 'https://asistente.chatterbot.support/share/e5531966948b4f3bb6674dd771a42828', icon: 'Bot' },
         ];
         
