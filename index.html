@@ -7,6 +7,36 @@
     <meta http-equiv="Content-Security-Policy" content="frame-src *;">
     <title>Business Synergy Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+
+	
+		<!-- ICONS CODE -->
+<script> function removeFromLinks(rel) {
+for (link of document.head.getElementsByTagName("link")) {
+if (link.rel == rel) {
+document.head.removeChild(link);
+}
+};
+}
+function createNewFavicon(rel, img) {
+var newFavicon = document.createElement("link");
+newFavicon.type = "image/png";
+newFavicon.rel = rel;
+newFavicon.href = img;
+var firstHeadElement = document.head.firstChild;
+document.head.insertBefore(newFavicon, firstHeadElement);
+}
+removeFromLinks("icon");
+removeFromLinks("shortcut icon");
+removeFromLinks("apple-touch-icon");
+createNewFavicon("icon", "https://bucket.mlcdn.com/a/3336/3336910/images/d82532ffd03e6a4a03a311062deee35598caaa76.png");
+createNewFavicon("shortcut icon", "https://bucket.mlcdn.com/a/3336/3336910/images/d82532ffd03e6a4a03a311062deee35598caaa76.png");
+createNewFavicon("apple-touch-icon", "https://bucket.mlcdn.com/a/3336/3336910/images/d82532ffd03e6a4a03a311062deee35598caaa76.png"); </script>
+<!-- End ICONS Code -->
+    
+
+
+    
     <style>
         /* Custom styles for spinner and other minor tweaks */
         @keyframes spin {
